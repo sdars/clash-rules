@@ -1,2 +1,4 @@
 # 破解EMBY
 domain:mb3admin.com
+keyword:abc
+full:www.guge.com
