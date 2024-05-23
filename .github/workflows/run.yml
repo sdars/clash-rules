@@ -41,7 +41,7 @@ jobs:
       - name: Generate kingdomaindirect.txt file
         run: |
           echo "payload:" > kingdomaindirect.txt
-          curl -sSL ${king_direct} | grep -E "^(full|domain):" | awk -F ':' '{if ($1 == "full") printf "  - %s\n", $2; else printf "  - |+.%s|\n", $2}' | sed "s/|/'/g" >> kingdomaindirect.txt
+          curl -sSL ${king_direct} | grep -E "^(full|domain|keyword):" | awk -F ':' '{if ($1 == "full") printf "  - %s\n", $2; else if ($1 == "domain") printf "  - |+.%s|\n", $2; else printf "  - '+.%s.+'\n", $2}' | sed "s/|/'/g" >> kingdomaindirect.txt
 
       - name: Generate kingcidrdirect.txt file
         run: |
