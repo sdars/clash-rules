@@ -41,7 +41,7 @@ jobs:
       - name: Generate kingdirectclassical.txt file
         run: |
           echo "payload:" > kingdirectclassical.txt
-          curl -sSL ${king_direct} | grep -E "^(full|domain|keyword|ipcidr):" | awk -F '^(full|domain|keyword|ipcidr):' '{if ($2 ~ /^full/) printf "  - DOMAIN,%s\n", substr($2, 6); else if ($2 ~ /^domain/) printf "  - DOMAIN-SUFFIX,%s\n", substr($2, 8); else if ($2 ~ /^keyword/)  printf "  - DOMAIN-KEYWORD,%s\n", substr($2, 9); else if ($2 ~ /^ipcidr/) printf "  - IP-CIDR,%s\n", substr($2, 8); else printf "  - %s\n", $2}' >> kingdirectclassical.txt
+          curl -sSL ${king_direct} | grep -E "^(full|domain|keyword|ipcidr):" | awk -F ': ' '{if ($1 == "full") printf "  - DOMAIN,%s\n", $2; else if ($1 == "domain") printf "  - DOMAIN-SUFFIX,%s\n", $2; else if ($1 == "keyword") printf "  - DOMAIN-KEYWORD,%s\n", $2; else if ($1 == "ipcidr") printf "  - IP-CIDR,%s\n", $2; else printf "  - %s\n", $2}' /tmp/filtered_data >> kingdirectclassical.txt
 
       - name: Generate kingproxyclassical.txt file
         run: |
