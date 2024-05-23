@@ -48,6 +48,12 @@ jobs:
           echo "payload:" > kingcidr.txt
           curl -sSL ${king_domain_direct} | perl -ne '/(.+\/\d+)/ && print "  - |$1|\n"' | sed "s/|/'/g" >> kingcidr.txt
 
+      - name: Generate kingdirect.txt file
+        run: |
+          echo "payload:" > kingdirect.txt
+          curl -sSL ${king_domain_direct} | grep -Ev "^(regexp|keyword):" | perl -ne '/^(full:)([-_a-zA-Z0-9]+(\.[-_a-zA-Z0-9]+)*)/ && print "  - |$2|\n"' | sed "s/|/'/g" >> kingdirect.txt
+          curl -sSL ${king_domain_direct} | grep -Ev "^(regexp|keyword|full):" | perl -ne '/^(domain:)?([-_a-zA-Z0-9]+(\.[-_a-zA-Z0-9]+)*)/ && print "  - |+.$2|\n"' | sed "s/|/'/g" >> kingdirect.txt
+
       - name: Generate icloud.txt file
         run: |
           echo "payload:" > icloud.txt
