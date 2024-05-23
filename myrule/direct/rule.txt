@@ -21,8 +21,8 @@ port:21163
 6345345
 
 port:21166
-souceipcidr:192.0.0.0/8
-souceipcidr:2a11:df80:7d21::/48
+sourceipcidr:192.0.0.0/8
+sourceipcidr:2a11:df80:7d21::/48
 port:25565
 port:21163
 sourceport:19928
