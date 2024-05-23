@@ -2,3 +2,4 @@
 domain:mb3admin.com
 keyword:abc
 full:www.guge.com
+full:ipinfo.io
