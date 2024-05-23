@@ -1,2 +1,3 @@
 domain:mb3admin.com
 keyword:abc
+keyword:abc.com
