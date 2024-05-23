@@ -46,7 +46,7 @@ jobs:
       - name: Generate kingproxyclassical.txt file
         run: |
           echo "payload:" > kingproxyclassical.txt
-          curl -sSL ${king_direct} | grep -E "^(full|domain|keyword):" | awk -F ':' '{if ($1 == "full") printf "  - '\''%s'\''\n", $2; else if ($1 == "domain") printf "  - '\''*.%s'\''\n", $2; else if ($1 == "keyword") printf "  - '\''*%s*'\''\n", $2; else printf "  - '\''%s'\''\n", $2}' >> kingproxyclassical.txt
+          curl -sSL ${king_proxy} | grep -E "^(full|domain|keyword|ipcidr|port|sourceipcidr|sourceport):" | awk -F ':' '{if ($1 == "full") printf "  - DOMAIN,%s\n", $2;else if ($1 == "domain") printf "  - DOMAIN-SUFFIX,%s\n", $2;else if ($1 == "keyword") printf "  - DOMAIN-KEYWORD,%s\n", $2;else if ($1 == "ipcidr") {ipcidr = $2;for (i = 3; i <= NF; i++) {ipcidr = ipcidr ":" $i;}printf "  - IP-CIDR,%s\n", ipcidr;}else if ($1 == "port") printf "  - DST-PORT,%s\n", $2;else if ($1 == "sourceipcidr") {sourceipcidr = $2;for (i = 3; i <= NF; i++) {sourceipcidr = sourceipcidr ":" $i;}printf "  - SRC-IP-CIDR,%s\n", sourceipcidr;}else if ($1 == "sourceport") printf "  - SRC-PORT,%s\n", $2;else printf "  - %s\n", $2;}' >> kingproxyclassical.txt
 
       - name: Generate kingdomaindirect.txt file
         run: |
