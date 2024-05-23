@@ -43,10 +43,10 @@ jobs:
           echo "payload:" > kingdomaindirect.txt
           curl -sSL ${king_domain_direct} | grep -E "^(full|domain):" | awk -F ':' '{printf "  - |+.%s|\n", $2}' | sed "s/|/'/g" >> kingdomaindirect.txt
 
-      - name: Generate kingcidr.txt file
+      - name: Generate kingcidrdirect.txt file
         run: |
           echo "payload:" > kingcidr.txt
-          curl -sSL ${cn_cidr} | grep -E "^(full|domain):" | awk -F ':' '{printf "  - |+.%s|\n", $2}' | sed "s/|/'/g" >> kingcidr.txt
+          curl -sSL ${king_domain_direct} | perl -ne '/(.+\/\d+)/ && print "  - |$1|\n"' | sed "s/|/'/g" >> kingcidr.txt
 
       - name: Generate icloud.txt file
         run: |
