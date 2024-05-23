@@ -41,7 +41,7 @@ jobs:
       - name: Generate kingdirectclassical.txt file
         run: |
           echo "payload:" > kingdirectclassical.txt
-          curl -sSL ${king_direct} | grep -E "^(full|domain|keyword):" | awk -F ':' '{if (\$1 == "full") printf "  - DOMAIN,%s\n", \$2; else if (\$1 == "domain") printf "  - DOMAIN-SUFFIX,%s\n", \$2; else if (\$1 == "keyword") printf "  - DOMAIN-KEYWORD,%s\n", \$2; else printf "  - %s\n", \$2}' >> kingdirectclassical.txt
+          curl -sSL ${king_direct} | grep -E "^(full|domain|keyword):" | awk -F ':' '{if ($1 == "full") printf "  - DOMAIN,%s\n", $2; else if ($1 == "domain") printf "  - DOMAIN-SUFFIX,%s\n", $2; else if ($1 == "keyword") printf "  - DOMAIN-KEYWORD,%s\n", $2; else printf "  - %s\n", $2}' >> kingdirectclassical.txt
 
       - name: Generate kingproxyclassical.txt file
         run: |
