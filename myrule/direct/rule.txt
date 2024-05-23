@@ -14,3 +14,5 @@ ipcidr:1.4.64.0/18
 ipcidr:2a13:df80:7d21::/48
 ipcidr:2a13:df80:7d22::/47
 ipcidr:2a13:df80:7d24::/48
+port:25565
+port:21163
