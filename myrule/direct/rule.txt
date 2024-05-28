@@ -1,4 +1,2 @@
 domain:mb3admin.com
 domain:akile.io
-domain:miskaemby.655618.xyz
-domain:miskastream.655618.xyz
