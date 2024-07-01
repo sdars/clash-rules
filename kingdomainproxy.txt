@@ -1,0 +1,3 @@
+payload:
+  - '+.telegram.org'
+  - '+.speedtest.net'
