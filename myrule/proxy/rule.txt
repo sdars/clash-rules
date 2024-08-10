@@ -3,4 +3,5 @@
 domain:telegram.org
 domain:speedtest.net
 domain:wnki.cn
+domain:vpsvr.cn
 domain:coalcloud.net
