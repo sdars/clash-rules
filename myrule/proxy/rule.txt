@@ -2,3 +2,4 @@
 #domain:baidu.com
 domain:telegram.org
 domain:speedtest.net
+domain:wnki.cn
