@@ -1,0 +1,6 @@
+payload:
+  - DOMAIN-SUFFIX,mb3admin.com
+  - DOMAIN-SUFFIX,akile.io
+  - DOMAIN-SUFFIX,wy.llua.cn
+  - DOMAIN-SUFFIX,allawnos.com
+  - DOMAIN-SUFFIX,allawntech.com
