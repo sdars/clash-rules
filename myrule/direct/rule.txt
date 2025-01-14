@@ -3,4 +3,5 @@ domain:akile.io
 domain:wy.llua.cn
 domain:allawnos.com
 domain:allawntech.com
-domain:tv.micu.hk,auto
+domain:tv.micu.hk
+ipcidr:96.9.229.229
