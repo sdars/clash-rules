@@ -3,3 +3,4 @@ domain:akile.io
 domain:wy.llua.cn
 domain:allawnos.com
 domain:allawntech.com
+domain:tv.micu.hk
