@@ -8,7 +8,6 @@ on:
       - master
     paths-ignore:
       - "**/README.md"
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,6 +18,19 @@ jobs:
           echo "TAG_NAME=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
           echo "king_direct=https://raw.githubusercontent.com/sdars/clash-rules/master/myrule/direct/rule.txt" >> $GITHUB_ENV
           echo "king_proxy=https://raw.githubusercontent.com/sdars/clash-rules/master/myrule/proxy/rule.txt" >> $GITHUB_ENV
+          echo "custom_icloud=https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/icloud.txt" >> $GITHUB_ENV
+          echo "custom_tld_not_cn=https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/tld-!cn.txt" >> $GITHUB_ENV
+          echo "custom_private=https://raw.githubusercontent.com/Loyalsoldier/domain-list-custom/release/private.txt" >> $GITHUB_ENV
+          echo "Loyalsoldier_reject=https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/reject-list.txt" >> $GITHUB_ENV
+          echo "Loyalsoldier_proxy=https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/proxy-list.txt" >> $GITHUB_ENV
+          echo "Loyalsoldier_direct=https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/direct-list.txt" >> $GITHUB_ENV
+          echo "Loyalsoldier_gfw=https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/gfw.txt" >> $GITHUB_ENV
+          echo "Loyalsoldier_greatfire=https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/greatfire.txt" >> $GITHUB_ENV
+          echo "felixonmars_apple=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf" >> $GITHUB_ENV
+          echo "felixonmars_google=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf" >> $GITHUB_ENV
+          echo "cn_cidr=https://raw.githubusercontent.com/Loyalsoldier/geoip/release/text/cn.txt" >> $GITHUB_ENV
+          echo "lan_cidr=https://raw.githubusercontent.com/Loyalsoldier/geoip/release/text/private.txt" >> $GITHUB_ENV
+          echo "telegram_cidr=https://raw.githubusercontent.com/Loyalsoldier/geoip/release/text/telegram.txt" >> $GITHUB_ENV
         shell: bash
 
       - name: Checkout the "hidden" branch
@@ -26,20 +38,108 @@ jobs:
         with:
           ref: hidden
 
-      - name: Generate kingdomainproxy.txt file
+      - name: Generate kingdirectclassical.txt file
         run: |
-          echo "payload:" > kingdomainproxy.txt
-          curl -sSL ${king_proxy} | grep -E "^(full|domain):" | awk -F ':' '{printf "  - '\''+.%s'\''\n", $2}' >> kingdomainproxy.txt
+          echo "payload:" > kingdirectclassical.txt
+          curl -sSL ${king_direct} | grep -E "^(full|domain|keyword|ipcidr|port|sourceipcidr|sourceport):" | awk -F ':' '{if ($1 == "full") printf "  - DOMAIN,%s\n", $2;else if ($1 == "domain") printf "  - DOMAIN-SUFFIX,%s\n", $2;else if ($1 == "keyword") printf "  - DOMAIN-KEYWORD,%s\n", $2;else if ($1 == "ipcidr") {ipcidr = $2;for (i = 3; i <= NF; i++) {ipcidr = ipcidr ":" $i;}printf "  - IP-CIDR,%s\n", ipcidr;}else if ($1 == "port") printf "  - DST-PORT,%s\n", $2;else if ($1 == "sourceipcidr") {sourceipcidr = $2;for (i = 3; i <= NF; i++) {sourceipcidr = sourceipcidr ":" $i;}printf "  - SRC-IP-CIDR,%s\n", sourceipcidr;}else if ($1 == "sourceport") printf "  - SRC-PORT,%s\n", $2;else printf "  - %s\n", $2;}' >> kingdirectclassical.txt
+
+      - name: Generate kingproxyclassical.txt file
+        run: |
+          echo "payload:" > kingproxyclassical.txt
+          curl -sSL ${king_proxy} | grep -E "^(full|domain|keyword|ipcidr|port|sourceipcidr|sourceport):" | awk -F ':' '{if ($1 == "full") printf "  - DOMAIN,%s\n", $2;else if ($1 == "domain") printf "  - DOMAIN-SUFFIX,%s\n", $2;else if ($1 == "keyword") printf "  - DOMAIN-KEYWORD,%s\n", $2;else if ($1 == "ipcidr") {ipcidr = $2;for (i = 3; i <= NF; i++) {ipcidr = ipcidr ":" $i;}printf "  - IP-CIDR,%s\n", ipcidr;}else if ($1 == "port") printf "  - DST-PORT,%s\n", $2;else if ($1 == "sourceipcidr") {sourceipcidr = $2;for (i = 3; i <= NF; i++) {sourceipcidr = sourceipcidr ":" $i;}printf "  - SRC-IP-CIDR,%s\n", sourceipcidr;}else if ($1 == "sourceport") printf "  - SRC-PORT,%s\n", $2;else printf "  - %s\n", $2;}' >> kingproxyclassical.txt
 
       - name: Generate kingdomaindirect.txt file
         run: |
           echo "payload:" > kingdomaindirect.txt
-          curl -sSL ${king_direct} | grep -E "^(full|domain|keyword):" | awk -F ':' '{if ($1 == "full") printf "  - '\''%s'\''\n", $2; else if ($1 == "domain") printf "  - '\''*.%s'\''\n", $2; else if ($1 == "keyword") printf "  - '\''*%s*'\''\n", $2}' >> kingdomaindirect.txt
+          curl -sSL ${king_direct} | grep -E "^(full|domain|keyword):" | awk -F ':' '{if ($1 == "full") printf "  - '\''%s'\''\n", $2; else if ($1 == "domain") printf "  - '\''*.%s'\''\n", $2; else if ($1 == "keyword") printf "  - '\''*%s*'\''\n", $2; else printf "  - '\''%s'\''\n", $2}' >> kingdomaindirect.txt
+
+      - name: Generate kingcidrdirect.txt file
+        run: |
+          echo "payload:" > kingcidrdirect.txt
+          curl -sSL ${king_direct} | perl -ne '/(.+\/\d+)/ && print "  - |$1|\n"' | sed "s/|/'/g" >> kingcidrdirect.txt
+
+      - name: Generate kingdomainproxy.txt file
+        run: |
+          echo "payload:" > kingdomainproxy.txt
+          curl -sSL ${king_proxy} | grep -E "^(full|domain):" | awk -F ':' '{printf "  - |+.%s|\n", $2}' | sed "s/|/'/g" >> kingdomainproxy.txt
+
+      - name: Generate kingcidrproxy.txt file
+        run: |
+          echo "payload:" > kingcidrproxy.txt
+          curl -sSL ${king_proxy} | perl -ne '/(.+\/\d+)/ && print "  - |$1|\n"' | sed "s/|/'/g" >> kingcidrproxy.txt
+
+      - name: Generate icloud.txt file
+        run: |
+          echo "payload:" > icloud.txt
+          curl -sSL ${custom_icloud} | grep -E "^(full|domain):" | awk -F ':' '{printf "  - |+.%s|\n", $2}' | sed "s/|/'/g" >> icloud.txt
+
+      - name: Generate google.txt file
+        run: |
+          echo "payload:" > google.txt
+          curl -sSL ${felixonmars_google} | perl -ne '/^server=\/([^\/]+)\// && print "  - |+.$1|\n"' | sed "s/|/'/g" >> google.txt
+
+      - name: Generate apple.txt file
+        run: |
+          echo "payload:" > apple.txt
+          curl -sSL ${felixonmars_apple} | perl -ne '/^server=\/([^\/]+)\// && print "  - |+.$1|\n"' | sed "s/|/'/g" >> apple.txt
+
+      - name: Generate private.txt file
+        run: |
+          echo "payload:" > private.txt
+          curl -sSL ${custom_private} | awk -F ':' '/^full:/ {printf "  - |%s|\n", $2}' | sed "s/|/'/g" >> private.txt
+          curl -sSL ${custom_private} | awk -F ':' '/^domain:/ {printf "  - |+.%s|\n", $2}' | sed "s/|/'/g" >> private.txt
+
+      - name: Generate direct.txt file
+        run: |
+          echo "payload:" > direct.txt
+          curl -sSL ${Loyalsoldier_direct} | grep -Ev "^(regexp|keyword):" | perl -ne '/^(full:)([-_a-zA-Z0-9]+(\.[-_a-zA-Z0-9]+)*)/ && print "  - |$2|\n"' | sed "s/|/'/g" >> direct.txt
+          curl -sSL ${Loyalsoldier_direct} | grep -Ev "^(regexp|keyword|full):" | perl -ne '/^(domain:)?([-_a-zA-Z0-9]+(\.[-_a-zA-Z0-9]+)*)/ && print "  - |+.$2|\n"' | sed "s/|/'/g" >> direct.txt
+
+      - name: Generate proxy.txt file
+        run: |
+          echo "payload:" > proxy.txt
+          curl -sSL ${Loyalsoldier_proxy} | grep -Ev "^(regexp|keyword):" | perl -ne '/^(full:)([-_a-zA-Z0-9]+(\.[-_a-zA-Z0-9]+)*)/ && print "  - |$2|\n"' | sed "s/|/'/g" >> proxy.txt
+          curl -sSL ${Loyalsoldier_proxy} | grep -Ev "^(regexp|keyword|full):" | perl -ne '/^(domain:)?([-_a-zA-Z0-9]+(\.[-_a-zA-Z0-9]+)*)/ && print "  - |+.$2|\n"' | sed "s/|/'/g" >> proxy.txt
+
+      - name: Generate reject.txt file
+        run: |
+          echo "payload:" > reject.txt
+          curl -sSL ${Loyalsoldier_reject} | grep -Ev "^(regexp|keyword):" | perl -ne '/^(domain:|full:)?([-_a-zA-Z0-9]+(\.[-_a-zA-Z0-9]+)*)/ && print "  - |+.$2|\n"' | sed "s/|/'/g" >> reject.txt
+
+      - name: Generate gfw.txt file
+        run: |
+          echo "payload:" > gfw.txt
+          curl -sSL ${Loyalsoldier_gfw} | grep -Ev "^(regexp|keyword):" | perl -ne '/^(domain:|full:)?([-_a-zA-Z0-9]+(\.[-_a-zA-Z0-9]+)*)/ && print "  - |+.$2|\n"' | sed "s/|/'/g" >> gfw.txt
+
+      - name: Generate greatfire.txt file
+        run: |
+          echo "payload:" > greatfire.txt
+          curl -sSL ${Loyalsoldier_greatfire} | grep -Ev "^(regexp|keyword):" | perl -ne '/^(domain:|full:)?([-_a-zA-Z0-9]+(\.[-_a-zA-Z0-9]+)*)/ && print "  - |+.$2|\n"' | sed "s/|/'/g" >> greatfire.txt
+
+      - name: Generate tld-not-cn.txt file
+        run: |
+          echo "payload:" > tld-not-cn.txt
+          curl -sSL "${custom_tld_not_cn}" | perl -ne '/^domain:([-_a-zA-Z0-9]+(\.[-_a-zA-Z0-9]+)*)/ && print "  - |+.$1|\n"' | sed "s/|/'/g" >> tld-not-cn.txt
+
+      - name: Generate cncidr.txt file
+        run: |
+          echo "payload:" > cncidr.txt
+          curl -sSL ${cn_cidr} | perl -ne '/(.+\/\d+)/ && print "  - |$1|\n"' | sed "s/|/'/g" >> cncidr.txt
+
+      - name: Generate telegramcidr.txt file
+        run: |
+          echo "payload:" > telegramcidr.txt
+          curl -sSL ${telegram_cidr} | perl -ne '/(.+\/\d+)/ && print "  - |$1|\n"' | sed "s/|/'/g" >> telegramcidr.txt
+
+      - name: Generate lancidr.txt file
+        run: |
+          echo "payload:" > lancidr.txt
+          curl -sSL ${lan_cidr} | perl -ne '/(.+\/\d+)/ && print "  - |$1|\n"' | sed "s/|/'/g" >> lancidr.txt
 
       - name: Move files to publish directory
         run: |
           mkdir -p publish
-          mv kingdomainproxy.txt kingdomaindirect.txt ./publish/
+          cp *.txt ./publish/
 
       - name: Release and upload assets
         uses: softprops/action-gh-release@v2
@@ -64,3 +164,10 @@ jobs:
           git commit -m "${{ env.RELEASE_NAME }}"
           git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
           git push -f origin release
+
+      - name: Purge jsdelivr CDN
+        run: |
+          cd publish || exit 1
+          for file in $(ls); do
+            curl -i "https://purge.jsdelivr.net/gh/${{ github.repository }}@release/${file}"
+          done
