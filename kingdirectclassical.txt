@@ -1,0 +1,8 @@
+payload:
+  - DOMAIN-SUFFIX,mb3admin.com
+  - DOMAIN-SUFFIX,akile.io
+  - DOMAIN-SUFFIX,wy.llua.cn
+  - DOMAIN-SUFFIX,allawnos.com
+  - DOMAIN-SUFFIX,allawntech.com
+  - DOMAIN-SUFFIX,tv.micu.hk
+  - IP-CIDR,96.9.229.229
