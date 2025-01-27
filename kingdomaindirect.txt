@@ -1,0 +1,7 @@
+payload:
+  - '*.mb3admin.com'
+  - '*.akile.io'
+  - '*.wy.llua.cn'
+  - '*.allawnos.com'
+  - '*.allawntech.com'
+  - '*.tv.micu.hk'
