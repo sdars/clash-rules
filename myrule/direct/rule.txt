@@ -5,4 +5,3 @@ domain:allawnos.com
 domain:allawntech.com
 domain:tv.micu.hk
 domain:cursor.sh
-ipcidr:96.9.229.229
