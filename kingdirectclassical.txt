@@ -1,0 +1,9 @@
+payload:
+  - DOMAIN-SUFFIX,mb3admin.com
+  - DOMAIN-SUFFIX,akile.io
+  - DOMAIN-SUFFIX,wy.llua.cn
+  - DOMAIN-SUFFIX,allawnos.com
+  - DOMAIN-SUFFIX,allawntech.com
+  - DOMAIN-SUFFIX,tv.micu.hk
+  - DOMAIN-SUFFIX,cursor.sh
+  - DOMAIN-SUFFIX,cursor.com
