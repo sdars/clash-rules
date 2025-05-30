@@ -1,0 +1,6 @@
+payload:
+  - '+.telegram.org'
+  - '+.speedtest.net'
+  - '+.wnki.cn'
+  - '+.vpsvr.cn'
+  - '+.coalcloud.net'
