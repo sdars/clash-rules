@@ -6,3 +6,4 @@ domain:allawntech.com
 domain:tv.micu.hk
 domain:cursor.sh
 domain:cursor.com
+port:22
