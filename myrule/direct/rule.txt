@@ -7,3 +7,4 @@ domain:tv.micu.hk
 domain:cursor.sh
 domain:cursor.com
 port:22
+port:3478
