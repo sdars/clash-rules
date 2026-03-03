@@ -7,5 +7,6 @@ domain:tv.micu.hk
 domain:cursor.sh
 domain:cursor.com
 domain:curl.yuexinya.top
+domain:miku.yuexinya.top
 port:22
 port:3478
