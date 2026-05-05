@@ -10,4 +10,5 @@ domain:curl.yuexinya.top
 domain:miku.yuexinya.top
 domain:cdn-edge3dc80b.558588.xyz
 domain:edge3dc80b.558588.xyz
+domain:cdn-edge-4e308a.558588.xyz
 port:3478
