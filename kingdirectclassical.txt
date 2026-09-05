@@ -1,0 +1,16 @@
+payload:
+  - DOMAIN-SUFFIX,mb3admin.com
+  - DOMAIN-SUFFIX,akile.io
+  - DOMAIN-SUFFIX,wy.llua.cn
+  - DOMAIN-SUFFIX,allawnos.com
+  - DOMAIN-SUFFIX,allawntech.com
+  - DOMAIN-SUFFIX,tv.micu.hk
+  - DOMAIN-SUFFIX,cursor.sh
+  - DOMAIN-SUFFIX,cursor.com
+  - DOMAIN-SUFFIX,curl.yuexinya.top
+  - DOMAIN-SUFFIX,miku.yuexinya.top
+  - DOMAIN-SUFFIX,cdn-edge3dc80b.558588.xyz
+  - DOMAIN-SUFFIX,edge3dc80b.558588.xyz
+  - DOMAIN-SUFFIX,cdn-edge-4e308a.558588.xyz
+  - DOMAIN-SUFFIX,cdn-edge-8e308a.558588.xyz
+  - DST-PORT,3478
