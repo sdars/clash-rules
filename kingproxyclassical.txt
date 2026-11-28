@@ -1,0 +1,6 @@
+payload:
+  - DOMAIN-SUFFIX,telegram.org
+  - DOMAIN-SUFFIX,speedtest.net
+  - DOMAIN-SUFFIX,wnki.cn
+  - DOMAIN-SUFFIX,vpsvr.cn
+  - DOMAIN-SUFFIX,coalcloud.net
